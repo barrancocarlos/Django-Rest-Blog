@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from . import views
 
 router = routers.DefaultRouter()
-router.register(r'authors', views.AuthorViewset)
+router.register(r'authors', views.AuthorViewset, base_name='authors')
 router.register(r'posts', views.PostViewset)
 
 urlpatterns = [
