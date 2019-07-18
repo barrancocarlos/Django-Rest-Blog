@@ -2,11 +2,12 @@ from rest_framework import serializers
 from .models import Post, Author
 
 class AuthorSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(source='user.email')    
+    email = serializers.EmailField(source='user.email') 
+    password = serializers.CharField(write_only=True)   
     #token_generated = serializers.CharField(source='user.token_generated', read_only=True)
     class Meta:
         model = Author
-        fields = ('id', 'name', 'last_name')
+        fields = ('id', 'name', 'last_name', 'email', 'password')
 
     def create(self, validated_data):
         author = Author.objects.create_author(
