@@ -5,8 +5,7 @@ from authentication import utils
 # Create your models here.
 
 class AuthorManager(models.Manager):
-    def create_author(self, email, **kwargs):
-        password = utils.generate_password()
+    def create_author(self, email, password, **kwargs):        
         #Create Profile
         new_profile = Profile.objects.create_user(
             email=email, 
