@@ -1,6 +1,6 @@
 from django.db import models
 from authentication.models import Profile
-from authentication import utils
+
 
 # Create your models here.
 

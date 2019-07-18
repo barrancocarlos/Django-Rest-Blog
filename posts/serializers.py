@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Post, Author
 
 class AuthorSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(source='user.email')
+    email = serializers.EmailField(source='user.email')    
     #token_generated = serializers.CharField(source='user.token_generated', read_only=True)
     class Meta:
         model = Author

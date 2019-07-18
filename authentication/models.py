@@ -24,7 +24,7 @@ class ProfileManager(BaseUserManager):
         account.is_admin = True        
         account.save(using=self._db)
         return account
-        
+
 class Profile(AbstractBaseUser):
     email = models.EmailField(
         verbose_name='email address',

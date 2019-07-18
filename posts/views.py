@@ -33,7 +33,7 @@ class AuthorViewset(viewsets.ViewSet):
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
-        aAuthor = self.get_object(pk)
+        author = self.get_object(pk)
         serializer = AuthorSerializer(author, context={"request": request})
         return Response(serializer.data)
 
