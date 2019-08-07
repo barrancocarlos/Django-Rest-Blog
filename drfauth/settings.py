@@ -41,9 +41,12 @@ INSTALLED_APPS = [
     'rest_framework', # custom
     'posts', # custom
     'authentication', # custom
+    'corsheaders', # custom
 ]
 
-MIDDLEWARE = [
+MIDDLEWARE = [    
+    'corsheaders.middleware.CorsMiddleware', # custom
+    'django.middleware.common.CommonMiddleware', # custom
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -108,9 +111,9 @@ AUTH_USER_MODEL = 'authentication.Profile' # custom
 # custom
 #Rest Framework 
 # Deactivate Security 
-#rest_framework_permission = 'rest_framework.permissions.AllowAny'
+rest_framework_permission = 'rest_framework.permissions.AllowAny'
 # Activate Security
-rest_framework_permission = 'rest_framework.permissions.IsAuthenticated'
+#rest_framework_permission = 'rest_framework.permissions.IsAuthenticated'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
