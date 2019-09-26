@@ -133,8 +133,11 @@ JWT_AUTH = {
     'JWT_DECODE_HANDLER':
     'rest_framework_jwt.utils.jwt_decode_handler',
 
-    'JWT_PAYLOAD_HANDLER':
-    'rest_framework_jwt.utils.jwt_payload_handler',
+   'JWT_RESPONSE_PAYLOAD_HANDLER':
+   # Custom payload handler
+   'authentication.utils.jwt_response_payload_handler', #<---- custom jwt payloader response
+    #'rest_framework_jwt.utils.jwt_response_payload_handler', #<---- default jwt payloader
+
 
     'JWT_PAYLOAD_GET_USER_ID_HANDLER':
     'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',

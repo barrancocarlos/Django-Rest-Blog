@@ -7,7 +7,8 @@ class AuthorSerializer(serializers.ModelSerializer):
     #token_generated = serializers.CharField(source='user.token_generated', read_only=True)
     class Meta:
         model = Author
-        fields = ('id', 'name', 'last_name', 'email', 'password')
+        fields = ('id', 'name', 'last_name', 'email', 'password', 'user')
+        depth = 1
 
     def create(self, validated_data):
         author = Author.objects.create_author(

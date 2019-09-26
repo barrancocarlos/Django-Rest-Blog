@@ -26,6 +26,7 @@ class AuthorViewset(viewsets.ViewSet):
     
     def list(self, request):
         authors = Author.objects.all()
+        #get author by user id
         user_id = self.request.query_params.get('user_id', None)
         if user_id is not None:
             authors = authors.filter(user=user_id)
