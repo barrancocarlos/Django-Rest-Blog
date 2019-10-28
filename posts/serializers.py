@@ -7,7 +7,7 @@ class AuthorSerializer(serializers.ModelSerializer):
     #token_generated = serializers.CharField(source='user.token_generated', read_only=True)
     class Meta:
         model = Author
-        fields = ('id', 'name', 'last_name', 'email', 'password', 'user')
+        fields = '__all__'
         depth = 1
 
     def create(self, validated_data):
@@ -24,7 +24,21 @@ class AuthorSerializer(serializers.ModelSerializer):
         return instance
 
 class PostSerializer(serializers.ModelSerializer):
+    author_id = serializers.CharField(required=False, allow_blank=True)
     class Meta:
         model = Post
-        fields = ('id', 'title', 'content', 'created_at', 'updated_at', 'author')
+        fields = '__all__'
         depth = 1
+
+    def create(self, validated_data):
+        # author_id = validated_data.pop('author_id')
+        post = Post.objects.create(**validated_data)
+        post.author = validated_data.pop('author_id')     
+        post.save()
+        return post
+
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title', instance.title)
+        instance.content = validated_data.get('content', instance.last_name)
+        instance.save()
+        return instance

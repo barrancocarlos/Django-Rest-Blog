@@ -5,7 +5,7 @@ from django.db import IntegrityError
 
 from rest_framework import status, viewsets
 from rest_framework.response import Response
-from rest_framework.decorators import detail_route, list_route
+
 
 from .serializers import ProfileSerializer, ProfileWriteSerializer
 from .models import Profile

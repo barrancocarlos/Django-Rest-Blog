@@ -5,7 +5,6 @@ from django.http import Http404, HttpResponse
 from django.db import IntegrityError
 
 from rest_framework import status, viewsets
-from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
 
 from .models import Author, Post
@@ -62,16 +61,43 @@ class AuthorViewset(viewsets.ViewSet):
         author.user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    # @detail_route(methods=['post'], url_path='generate-token')
-    # def generate_pwd_token(self, request, pk=None):
-    #     exec_admin = self.get_object(pk)
-    #     pwd = utils.generate_password()
-    #     exec_admin.user.set_password(pwd)
-    #     exec_admin.user.token_generated = pwd
-    #     exec_admin.user.save()
-    #     return Response(pwd, status=status.HTTP_200_OK)
 
+class PostViewset(viewsets.ViewSet):
+    def get_object(self, pk):
+        try:
+            return Post.objects.get(pk=pk)
+        except Post.DoesNotExist:
+            raise Http404
 
-class PostViewset(viewsets.ModelViewSet):
-    queryset = models.Post.objects.all()
-    serializer_class = serializers.PostSerializer
+    def list(self, request):
+        posts = Post.objects.all()    
+        #get post by author
+        author_id = self.request.query_params.get('author_id', None)
+        if author_id is not None:
+            posts = posts.filter(author_id=author_id)
+        serializer = PostSerializer(posts, many=True, context={"request": request})
+        return Response(serializer.data)
+    
+    def retrieve(self, request, pk=None):
+        post = self.get_object(pk)
+        serializer = PostSerializer(post, context={"request": request})
+        return Response(serializer.data)
+
+    def create(self, request):        
+        serializer = PostSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)            
+        the_response = PostSerializer(serializer.save())
+        return Response(the_response.data, status=status.HTTP_201_CREATED)       
+
+    def update(self, request, pk=None):
+        post = self.get_object(pk)
+        serializer = PostSerializer(post, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, pk=None):
+        post = self.get_object(pk)
+        post.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
