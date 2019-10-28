@@ -31,9 +31,9 @@ class PostSerializer(serializers.ModelSerializer):
         depth = 1
 
     def create(self, validated_data):
-        # author_id = validated_data.pop('author_id')
+        author_id = validated_data.pop('author_id')
         post = Post.objects.create(**validated_data)
-        post.author = validated_data.pop('author_id')     
+        post.author = Author.objects.get(pk=author_id) 
         post.save()
         return post
 
