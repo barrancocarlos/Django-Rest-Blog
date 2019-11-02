@@ -39,6 +39,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
-        instance.content = validated_data.get('content', instance.last_name)
+        instance.content = validated_data.get('content', instance.content)
+        instance.author_id = validated_data.get('author_id', instance.author_id)
         instance.save()
         return instance
