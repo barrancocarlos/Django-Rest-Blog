@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from django.http import Http404, HttpResponse
 from django.db import IntegrityError
@@ -63,6 +64,7 @@ class AuthorViewset(viewsets.ViewSet):
 
 
 class PostViewset(viewsets.ViewSet):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     def get_object(self, pk):
         try:
             return Post.objects.get(pk=pk)
